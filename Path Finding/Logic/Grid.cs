@@ -78,12 +78,6 @@ namespace Path_Finding.Logic
             {
                 for (int y = 1; y <= grid.GetLength(1); y++)
                 {
-                    // BETTER CODE POSSIBLE :
-                    // - Create a class like Logic.Grid for the representationGrid and create a method
-                    //   to get the RectangleShape with the help of the normal "x" and "y" position
-                    //
-                    // - Make a show function
-
                     int x_array = x - 1;
                     int y_array = y - 1;
 
