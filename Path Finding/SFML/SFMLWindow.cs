@@ -57,17 +57,6 @@ namespace Path_Finding.SFML
             }
         }
 
-        static Logic.Grid CreateNodeGridDemo()
-        {
-            return Logic.GridBuilder.GetDemoGrids()[3];
-        }
-
-
-
-        /*
-         *   WINDOW EVENTS
-         */
-
         void OnWindowClose(object sender, EventArgs e)
         {
             // Close the window when OnClose event is received
