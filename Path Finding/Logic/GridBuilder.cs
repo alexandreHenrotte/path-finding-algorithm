@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Path_Finding
+namespace Path_Finding.Logic
 {
     class GridBuilder
     {
@@ -38,12 +38,9 @@ namespace Path_Finding
             }
         }
 
-        public static IEnumerable<Grid> GetDemoGrids()
+        public static Grid[] GetDemoGrids()
         {
-            foreach (Grid demoGrid in new Grid[] { DemoGrid1(), DemoGrid2(), DemoGrid3() })
-            {
-                yield return demoGrid;
-            }
+            return new Grid[] { DemoGrid1(), DemoGrid2(), DemoGrid3() };
         }
 
         private static Grid DemoGrid1()

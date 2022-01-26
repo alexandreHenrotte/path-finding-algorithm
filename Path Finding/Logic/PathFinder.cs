@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Path_Finding
+namespace Path_Finding.Logic
 {
     class PathFinder
     {

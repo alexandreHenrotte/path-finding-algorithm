@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Path_Finding
+namespace Path_Finding.Logic
 {
     class Node
     {

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Path_Finding
+namespace Path_Finding.Logic
 {
     class PathFindingProgram
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("+ : Start point\r\n" +
+            SFML.SFMLWindow.Show();
+            /*Console.WriteLine("+ : Start point\r\n" +
                               "- : End point\r\n" +
                               "■ : Wall\r\n" +
                               "$ : Best path\r\n" +
@@ -28,7 +29,7 @@ namespace Path_Finding
                 Console.WriteLine();
 
                 demoGridIndex++;
-            }
+            }*/
         }
     }
 }
