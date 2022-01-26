@@ -35,9 +35,10 @@ namespace Path_Finding.SFML
             // Setup events
             this.Closed += new EventHandler(OnWindowClose);
             this.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(SFMLMouseInputActions.OnMouseButtonPressed);
+            this.KeyPressed += new EventHandler<KeyEventArgs>(SFMLKeyInputActions.OnKeyPressed);
 
             // Create node grid
-            currentNodeGrid = CreateNodeGridDemo();
+            currentNodeGrid = Logic.GridBuilder.GetDemoGrids()[3];
 
             // Window loop
             while (this.IsOpen)

@@ -16,13 +16,15 @@ namespace Path_Finding.Logic
         public Node startNode;
         public Node endNode;
         public List<Node> walls;
+        public bool wantDiagonalNeighbours;
 
-        public Grid(int[] gridSize, Node startNode, Node endNode, List<Node> walls)
+        public Grid(int[] gridSize, Node startNode, Node endNode, List<Node> walls, bool wantDiagonalNeighbours=true)
         {
             // Keep references
             this.startNode = startNode;
             this.endNode = endNode;
             this.walls = walls;
+            this.wantDiagonalNeighbours = wantDiagonalNeighbours;
 
             // Create grid
             grid = new Node[gridSize[0], gridSize[1]];
@@ -66,12 +68,12 @@ namespace Path_Finding.Logic
             }
         }
 
-        public void Draw(RenderWindow window, bool showBestPath = true)
+        public void Draw(RenderWindow window, bool showBestPath)
         {
             if (showBestPath)
             {
                 Logic.PathFinder.SetGrid(this);
-                Logic.PathFinder.FindPath();
+                Logic.PathFinder.FindPath(wantDiagonalNeighbours);
             }
 
             for (int x = 1; x <= grid.GetLength(0); x++)

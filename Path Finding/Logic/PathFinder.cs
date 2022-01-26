@@ -13,7 +13,7 @@ namespace Path_Finding.Logic
             PathFinder.grid = grid;
         }
 
-        public static void FindPath()
+        public static void FindPath(bool wantDiagonalNeighbours=true)
         {
             List<Node> openNodes = new List<Node>();
             List<Node> closedNodes = new List<Node>();
@@ -25,7 +25,7 @@ namespace Path_Finding.Logic
                 openNodes.Remove(centerNode);
                 closedNodes.Add(centerNode);
 
-                List<Node> neighbours = FindNeighbours(centerNode);
+                List<Node> neighbours = FindNeighbours(centerNode, wantDiagonalNeighbours);
                 foreach (Node neighbour in neighbours)
                 {
                     if (centerNode == grid.endNode)
@@ -68,11 +68,11 @@ namespace Path_Finding.Logic
             return bestNode;
         }
 
-        static List<Node> FindNeighbours(Node node)
+        static List<Node> FindNeighbours(Node node, bool wantDiagonalNeighbours)
         {
-            //   XXX   O = node
-            //   XOX   X = neighbours
-            //   XXX
+            //   YXY   O = node
+            //   XOX   X = close neighbours
+            //   YXY   Y = diagonal neighbours (if asked)
             List<Node> neighboursNode = new List<Node>();
             for (int x = -1; x <=1; x++)
             {
@@ -80,6 +80,13 @@ namespace Path_Finding.Logic
                 {
                     int neighbourNode_x = node.x + x;
                     int neighbourNode_y = node.y + y;
+
+                    // Pass the diagonal neighbour if we don't want them
+                    bool isDiagonalNeighbour = (neighbourNode_x != node.x && neighbourNode_y != node.y);
+                    if (isDiagonalNeighbour && !wantDiagonalNeighbours)
+                        continue;
+
+                    // If we want that node as a neighbour we check if the coordinates match the grid annd add it to our list
                     if (grid.CoordinatesAreValid(neighbourNode_x, neighbourNode_y))
                     {
                         Node neighbourNode = grid.GetNode(neighbourNode_x, neighbourNode_y);
