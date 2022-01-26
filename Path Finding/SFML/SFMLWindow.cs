@@ -27,7 +27,8 @@ namespace Path_Finding.SFML
             window.SetFramerateLimit(WINDOW_MAX_FPS);
 
             // Setup events
-            window.Closed += new EventHandler(OnClose);
+            window.Closed += new EventHandler(OnWindowClose);
+            window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(OnMouseButtonPressed);
 
             // Settings of the grid
             int xAxisSize = 11;
@@ -36,7 +37,7 @@ namespace Path_Finding.SFML
             int squareOutlineThickness = 2;
 
             // Create logic of the square grid
-            Logic.Grid logicSquareGrid = CreateLogicSquareGridDemo(xAxisSize, yAxisSize);
+            Logic.Grid logicSquareGrid = CreateLogicSquareGridDemo();
 
             // Create representation of the square grid
             RectangleShape[,] representationSquareGrid = SFMLGridBuilder.CreateSquareGrid(xAxisSize, yAxisSize, squareSize, squareOutlineThickness);
@@ -50,8 +51,7 @@ namespace Path_Finding.SFML
                 // Clear screen
                 window.Clear(windowColor);
 
-                // Create logic square grid and draw its representation
-                
+                // Draw square grid
                 DrawSquareGrid(window, logicSquareGrid, representationSquareGrid, showBestPath: true);
                 
 
@@ -60,7 +60,7 @@ namespace Path_Finding.SFML
             }
         }
 
-        static Logic.Grid CreateLogicSquareGridDemo(int xAxisSize, int yAxisSize)
+        static Logic.Grid CreateLogicSquareGridDemo()
         {
             return Logic.GridBuilder.GetDemoGrids()[2];
         }
@@ -87,8 +87,11 @@ namespace Path_Finding.SFML
                 for (int y = 1; y <= representationSquareGrid.GetLength(1); y++)
                 {
                     // BETTER CODE POSSIBLE :
-                    // Create a class like Logic.Grid for the representationGrid and create a method
-                    // to get the RectangleShape with the help of the normal "x" and "y" position
+                    // - Create a class like Logic.Grid for the representationGrid and create a method
+                    //   to get the RectangleShape with the help of the normal "x" and "y" position
+                    //
+                    // - Make a show function
+
                     int x_array = x - 1;
                     int y_array = y - 1;
 
@@ -132,11 +135,17 @@ namespace Path_Finding.SFML
          *   WINDOW EVENTS
          */
 
-        static void OnClose(object sender, EventArgs e)
+        static void OnWindowClose(object sender, EventArgs e)
         {
             // Close the window when OnClose event is received
             RenderWindow window = (RenderWindow)sender;
             window.Close();
+        }
+
+        static void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            int x_mouse = e.X;
+            int y_mouse = e.Y;
         }
     }
 }
