@@ -3,33 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.Graphics;
+using SFML.Window;
+using SFML.System;
 
 namespace Path_Finding.Logic
 {
-    class Node
+    class Node : RectangleShape
     {
+        public const int DEFAULT_SIZE = 50;
+        public const int DEFAULT_OUTLINE_THICKNESS = 2;
+
         // 2D coordinates on the grid
         public int x;
         public int y;
 
-        // Parent of node
+        // Dijkstra algorithm variables
         private Node parentNode;
+        private int dijkstra_g = 0; // distance from start node
+        private int dijkstra_h = 0; // distance from end node
+        private int dijkstra_f = 0; // g + h
 
-        // G cost : distance from start node
-        private int dijkstra_g = 0;
-        // H cost : distance from end node
-        private int dijkstra_h = 0;
-        // F cost : G + H
-        private int dijkstra_f = 0;
+        // Is the node a wall or not
+        private bool walkable; 
 
-        // Is the node a "wall" or not
-        private bool walkable;
-
-        public Node(int x, int y, bool walkable=true)
+        public Node(int x, int y, int size, int outlineThickness, bool walkable=true)
         {
             this.x = x;
             this.y = y;
             this.walkable = walkable;
+
+            // SFML
+            this.Size = new Vector2f(size, size);
+            this.OutlineThickness = outlineThickness;
+            this.OutlineColor = Color.Black;
         }
 
         public bool IsLocatedAt(int x, int y)

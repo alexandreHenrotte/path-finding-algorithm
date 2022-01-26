@@ -19,6 +19,11 @@ namespace Path_Finding.SFML
         static string WINDOW_TITLE = "Path finding A*";
         static uint WINDOW_MAX_FPS = 60;
 
+        public static void Main(string[] args)
+        {
+            SFML.SFMLWindow.Show();
+        }
+
         public static void Show()
         {
             // Create the window
@@ -30,17 +35,8 @@ namespace Path_Finding.SFML
             window.Closed += new EventHandler(OnWindowClose);
             window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(OnMouseButtonPressed);
 
-            // Settings of the grid
-            int xAxisSize = 11;
-            int yAxisSize = 6;
-            int squareSize = 50;
-            int squareOutlineThickness = 2;
-
-            // Create logic of the square grid
-            Logic.Grid logicSquareGrid = CreateLogicSquareGridDemo();
-
-            // Create representation of the square grid
-            RectangleShape[,] representationSquareGrid = SFMLGridBuilder.CreateSquareGrid(xAxisSize, yAxisSize, squareSize, squareOutlineThickness);
+            // Create node grid
+            Logic.Grid nodeGrid = CreateLogicNodeGridDemo();
 
             // Window loop
             while (window.IsOpen)
@@ -51,82 +47,17 @@ namespace Path_Finding.SFML
                 // Clear screen
                 window.Clear(windowColor);
 
-                // Draw square grid
-                DrawSquareGrid(window, logicSquareGrid, representationSquareGrid, showBestPath: true);
-                
+                // Draw node grid
+                nodeGrid.Draw(window, showBestPath:true);
 
                 // Update the window
                 window.Display();
             }
         }
 
-        static Logic.Grid CreateLogicSquareGridDemo()
+        static Logic.Grid CreateLogicNodeGridDemo()
         {
-            return Logic.GridBuilder.GetDemoGrids()[2];
-        }
-
-        static Logic.Grid CreateLogicSquareGrid(int xAxisSize, int yAxisSize, int[] startPosition, int[] endPosition, List<int[]> wallsPosition)
-        {
-            Logic.GridBuilder.SetGridSize(xAxisSize, yAxisSize);
-            Logic.GridBuilder.SetStartNodePosition(startPosition[0], startPosition[1]);
-            Logic.GridBuilder.SetEndNodePosition(endPosition[0], endPosition[1]);
-            Logic.GridBuilder.SetWallsNodesPosition(wallsPosition);
-            return Logic.GridBuilder.Build();
-        }
-
-        static void DrawSquareGrid(RenderWindow window, Logic.Grid logicSquareGrid, RectangleShape[,] representationSquareGrid, bool showBestPath=true)
-        {
-            if (showBestPath)
-            {
-                Logic.PathFinder.SetGrid(logicSquareGrid);
-                Logic.PathFinder.FindPath();
-            }
-
-            for (int x = 1; x <= representationSquareGrid.GetLength(0); x++)
-            {
-                for (int y = 1; y <= representationSquareGrid.GetLength(1); y++)
-                {
-                    // BETTER CODE POSSIBLE :
-                    // - Create a class like Logic.Grid for the representationGrid and create a method
-                    //   to get the RectangleShape with the help of the normal "x" and "y" position
-                    //
-                    // - Make a show function
-
-                    int x_array = x - 1;
-                    int y_array = y - 1;
-
-                    if (logicSquareGrid.startNode.IsLocatedAt(x, y))
-                    {
-                        representationSquareGrid[x_array, y_array].FillColor = Color.Blue;
-                    }
-                    // End point
-                    else if (logicSquareGrid.endNode.IsLocatedAt(x, y))
-                    {
-                        representationSquareGrid[x_array, y_array].FillColor = Color.Yellow;
-                    }
-                    // Walls
-                    else if (logicSquareGrid.walls.Exists(wall => wall.IsLocatedAt(x, y)))
-                    {
-                        representationSquareGrid[x_array, y_array].FillColor = Color.Black;
-                    }
-                    // Best path
-                    else if (showBestPath && Logic.PathFinder.GetBestPathNodes().Exists(bestPathNode => bestPathNode.IsLocatedAt(x, y)))
-                    {
-                        representationSquareGrid[x_array, y_array].FillColor = Color.Cyan;
-                    }
-                    // Blank space
-                    else
-                    {
-                        // (Can be used for DEBUG)
-                        //bool hasParentNode = GetNode(x, y).GetParentNode() != null;
-                        //Console.Write(hasParentNode ? "#" : "□");
-
-                        //Console.Write("□");
-                    }
-
-                    window.Draw(representationSquareGrid[x_array, y_array]);
-                }
-            }
+            return Logic.GridBuilder.GetDemoGrids()[0];
         }
 
 

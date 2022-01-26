@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML;
+using SFML.Graphics;
+using SFML.Window;
+using SFML.System;
 
 namespace Path_Finding.Logic
 {
@@ -42,8 +46,77 @@ namespace Path_Finding.Logic
                 {
                     if (grid[x, y] == null)
                     {
-                        grid[x,y] = new Node(x + 1, y + 1);
+                        grid[x,y] = new Node(x + 1, y + 1, Node.DEFAULT_SIZE, Node.DEFAULT_OUTLINE_THICKNESS);
                     }
+                }
+            }
+
+            // Set SFML position of nodes
+            int nodePositionX = Node.DEFAULT_OUTLINE_THICKNESS;
+            for (int x = 0; x < gridSize[0]; x++)
+            {
+                int nodePositionY = Node.DEFAULT_OUTLINE_THICKNESS;
+                for (int y = 0; y < gridSize[1]; y++)
+                {
+                    grid[x, y].Position = new Vector2f(nodePositionX, nodePositionY);
+                    nodePositionY += Node.DEFAULT_SIZE;
+                }
+
+                nodePositionX += Node.DEFAULT_SIZE;
+            }
+        }
+
+        public void Draw(RenderWindow window, bool showBestPath = true)
+        {
+            if (showBestPath)
+            {
+                Logic.PathFinder.SetGrid(this);
+                Logic.PathFinder.FindPath();
+            }
+
+            for (int x = 1; x <= grid.GetLength(0); x++)
+            {
+                for (int y = 1; y <= grid.GetLength(1); y++)
+                {
+                    // BETTER CODE POSSIBLE :
+                    // - Create a class like Logic.Grid for the representationGrid and create a method
+                    //   to get the RectangleShape with the help of the normal "x" and "y" position
+                    //
+                    // - Make a show function
+
+                    int x_array = x - 1;
+                    int y_array = y - 1;
+
+                    if (startNode.IsLocatedAt(x, y))
+                    {
+                        grid[x_array, y_array].FillColor = Color.Blue;
+                    }
+                    // End point
+                    else if (endNode.IsLocatedAt(x, y))
+                    {
+                        grid[x_array, y_array].FillColor = Color.Yellow;
+                    }
+                    // Walls
+                    else if (walls.Exists(wall => wall.IsLocatedAt(x, y)))
+                    {
+                        grid[x_array, y_array].FillColor = Color.Black;
+                    }
+                    // Best path
+                    else if (showBestPath && Logic.PathFinder.GetBestPathNodes().Exists(bestPathNode => bestPathNode.IsLocatedAt(x, y)))
+                    {
+                        grid[x_array, y_array].FillColor = Color.Cyan;
+                    }
+                    // Blank space
+                    else
+                    {
+                        // (Can be used for DEBUG)
+                        //bool hasParentNode = GetNode(x, y).GetParentNode() != null;
+                        //Console.Write(hasParentNode ? "#" : "□");
+
+                        //Console.Write("□");
+                    }
+
+                    window.Draw(grid[x_array, y_array]);
                 }
             }
         }

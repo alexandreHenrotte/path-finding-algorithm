@@ -21,11 +21,11 @@ namespace Path_Finding.Logic
         }
         public static void SetStartNodePosition(int x, int y)
         {
-            startNode = new Node(x, y);
+            startNode = new Node(x, y, Node.DEFAULT_SIZE, Node.DEFAULT_OUTLINE_THICKNESS);
         }
         public static void SetEndNodePosition(int x, int y)
         {
-            endNode = new Node(x, y);
+            endNode = new Node(x, y, Node.DEFAULT_SIZE, Node.DEFAULT_OUTLINE_THICKNESS);
         }
         public static void SetWallsNodesPosition(List<int[]> wallsPositions)
         {
@@ -34,7 +34,7 @@ namespace Path_Finding.Logic
             {
                 int x = wallsPositions[i][0];
                 int y = wallsPositions[i][1];
-                walls.Add(new Node(x, y, walkable: false));
+                walls.Add(new Node(x, y, Node.DEFAULT_SIZE, Node.DEFAULT_OUTLINE_THICKNESS, walkable: false));
             }
         }
 
