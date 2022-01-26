@@ -11,7 +11,7 @@ using Path_Finding;
 
 namespace Path_Finding.SFML
 {
-    class SFMLWindow
+    class SFMLWindow : RenderWindow
     {
         static uint WINDOW_WIDTH = 800;
         static uint WINDOW_HEIGHT = 600;
@@ -19,45 +19,46 @@ namespace Path_Finding.SFML
         static string WINDOW_TITLE = "Path finding A*";
         static uint WINDOW_MAX_FPS = 60;
 
+        public Logic.Grid currentNodeGrid;
+
         public static void Main(string[] args)
         {
-            SFML.SFMLWindow.Show();
+
+            new SFMLWindow();
         }
 
-        public static void Show()
+        public SFMLWindow() : base(new VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE)
         {
-            // Create the window
-            RenderWindow window = new RenderWindow(new VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
             Color windowColor = WINDOW_COLOR_RGB;
-            window.SetFramerateLimit(WINDOW_MAX_FPS);
+            this.SetFramerateLimit(WINDOW_MAX_FPS);
 
             // Setup events
-            window.Closed += new EventHandler(OnWindowClose);
-            window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(OnMouseButtonPressed);
+            this.Closed += new EventHandler(OnWindowClose);
+            this.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(SFMLMouseInputActions.OnMouseButtonPressed);
 
             // Create node grid
-            Logic.Grid nodeGrid = CreateLogicNodeGridDemo();
+            currentNodeGrid = CreateNodeGridDemo();
 
             // Window loop
-            while (window.IsOpen)
+            while (this.IsOpen)
             {
                 // Process events
-                window.DispatchEvents();
+                this.DispatchEvents();
 
                 // Clear screen
-                window.Clear(windowColor);
+                this.Clear(windowColor);
 
                 // Draw node grid
-                nodeGrid.Draw(window, showBestPath:true);
+                currentNodeGrid.Draw(this, showBestPath:true);
 
                 // Update the window
-                window.Display();
+                this.Display();
             }
         }
 
-        static Logic.Grid CreateLogicNodeGridDemo()
+        static Logic.Grid CreateNodeGridDemo()
         {
-            return Logic.GridBuilder.GetDemoGrids()[0];
+            return Logic.GridBuilder.GetDemoGrids()[3];
         }
 
 
@@ -66,17 +67,11 @@ namespace Path_Finding.SFML
          *   WINDOW EVENTS
          */
 
-        static void OnWindowClose(object sender, EventArgs e)
+        void OnWindowClose(object sender, EventArgs e)
         {
             // Close the window when OnClose event is received
             RenderWindow window = (RenderWindow)sender;
             window.Close();
-        }
-
-        static void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            int x_mouse = e.X;
-            int y_mouse = e.Y;
         }
     }
 }

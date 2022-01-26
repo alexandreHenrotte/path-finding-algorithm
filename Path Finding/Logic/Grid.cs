@@ -103,6 +103,8 @@ namespace Path_Finding.Logic
                     // Blank space
                     else
                     {
+                        grid[x_array, y_array].FillColor = Color.White;
+
                         // (Can be used for DEBUG)
                         //bool hasParentNode = GetNode(x, y).GetParentNode() != null;
                         //Console.Write(hasParentNode ? "#" : "□");
@@ -119,12 +121,21 @@ namespace Path_Finding.Logic
         {
             return grid[x-1, y-1];
         }
-
         
         public bool CoordinatesAreValid(int x, int y)
         {
             return (x >= 1 && x <= grid.GetLength(0)) &&
                    (y >= 1 && y <= grid.GetLength(1));
+        }
+
+        public void AddWall(Node wall)
+        {
+            walls.Add(wall);
+        }
+
+        public void RemoveWall(Node wall)
+        {
+            walls.Remove(wall);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Path_Finding.Logic
 {
     class Node : RectangleShape
     {
-        public const int DEFAULT_SIZE = 50;
+        public const int DEFAULT_SIZE = 60;
         public const int DEFAULT_OUTLINE_THICKNESS = 2;
 
         // 2D coordinates on the grid
@@ -25,7 +25,7 @@ namespace Path_Finding.Logic
         private int dijkstra_f = 0; // g + h
 
         // Is the node a wall or not
-        private bool walkable; 
+        public bool walkable; 
 
         public Node(int x, int y, int size, int outlineThickness, bool walkable=true)
         {
@@ -42,11 +42,6 @@ namespace Path_Finding.Logic
         public bool IsLocatedAt(int x, int y)
         {
             return this.x == x && this.y == y;
-        }
-
-        public bool IsWalkable()
-        {
-            return this.walkable;
         }
 
         public Node GetParentNode()

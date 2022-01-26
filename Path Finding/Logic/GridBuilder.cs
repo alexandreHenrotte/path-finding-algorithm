@@ -40,7 +40,7 @@ namespace Path_Finding.Logic
 
         public static Grid[] GetDemoGrids()
         {
-            return new Grid[] { DemoGrid1(), DemoGrid2(), DemoGrid3() };
+            return new Grid[] { DemoGrid1(), DemoGrid2(), DemoGrid3(), DemoGrid4() };
         }
 
         private static Grid DemoGrid1()
@@ -62,7 +62,7 @@ namespace Path_Finding.Logic
                 new int[] {5, 3},
                 new int[] {6, 3},
                 new int[] {7, 3},
-                new int[] {8, 3},
+                new int[] {8, 3}
             });
             return Build();
         }
@@ -75,7 +75,28 @@ namespace Path_Finding.Logic
             SetWallsNodesPosition(new List<int[]> {
                 new int[] {4, 2},
                 new int[] {5, 2},
+                new int[] {5, 3}
+            });
+            return Build();
+        }
+
+        private static Grid DemoGrid4()
+        {
+            SetGridSize(12, 8);
+            SetStartNodePosition(2, 4);
+            SetEndNodePosition(9, 2);
+            SetWallsNodesPosition(new List<int[]> {
+                new int[] {4, 2},
+                new int[] {5, 2},
                 new int[] {5, 3},
+                new int[] {8, 6},
+                new int[] {8, 5},
+                new int[] {8, 4},
+                new int[] {8, 3},
+                new int[] {8, 2},
+                new int[] {9, 5},
+                new int[] {9, 6},
+                new int[] {10, 6}
             });
             return Build();
         }

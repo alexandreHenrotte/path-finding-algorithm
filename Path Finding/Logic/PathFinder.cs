@@ -33,7 +33,7 @@ namespace Path_Finding.Logic
                         return;
                     }
 
-                    if (closedNodes.Contains(neighbour) || !neighbour.IsWalkable())
+                    if (closedNodes.Contains(neighbour) || !neighbour.walkable)
                     {
                         continue;
                     }
