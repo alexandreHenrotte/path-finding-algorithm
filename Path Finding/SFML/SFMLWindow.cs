@@ -17,6 +17,7 @@ namespace Path_Finding.SFML
         static uint WINDOW_HEIGHT = 600;
         static Color WINDOW_COLOR_RGB = new Color(255, 255, 255);
         static string WINDOW_TITLE = "Path finding A*";
+        static Styles WINDOW_STYLE = Styles.Close;
         static uint WINDOW_MAX_FPS = 60;
 
         public Logic.Grid currentNodeGrid;
@@ -27,7 +28,7 @@ namespace Path_Finding.SFML
             new SFMLWindow();
         }
 
-        public SFMLWindow() : base(new VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE)
+        public SFMLWindow() : base(new VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE, WINDOW_STYLE)
         {
             Color windowColor = WINDOW_COLOR_RGB;
             this.SetFramerateLimit(WINDOW_MAX_FPS);
